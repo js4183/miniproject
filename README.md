@@ -75,7 +75,6 @@ public void close() { //DB닫는 메소드
 		}
 	}
 ```
-
 </details>
 
 * member
@@ -155,6 +154,7 @@ public String login(String id, String pw) {
     <summary>로그인시 스코어가져오는  </summary>
 
 <!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
 ```
 //로그인정보 스코어 가져오기
 		public int Scoreget(String nick) {
