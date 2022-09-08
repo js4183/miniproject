@@ -37,10 +37,13 @@ public class 첫자바 {
 
 ## 구현기능
 * DB연결메소드
-<details>
-    <summary>코드보기</summary>
 
-<!-- summary ```
+<details>
+    <summary>DB연결 코드보기</summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
+```
 public void connect() { //DB연결 메소드
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -71,45 +74,17 @@ public void close() { //DB닫는 메소드
 			e.printStackTrace();
 		}
 	}
-``` -->
+```
 
 </details>
 
-```
-public void connect() { //DB연결 메소드
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-
-			String url = "jdbc:oracle:thin:@project-db-stu.ddns.net:1524:xe";
-			String db_id = "campus_k_0830_1";
-			String db_pw = "smhrd1";
-
-			conn = DriverManager.getConnection(url, db_id, db_pw);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-public void close() { //DB닫는 메소드
-		try {
-			if (rs != null) {
-				rs.close();
-			}
-			if (psmt != null) {
-				psmt.close();
-			}
-			if (conn != null) {
-				conn.close();
-			}
-		} catch (SQLException e) {// Exception
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-```
-
-
 * member
+
+<details>
+    <summary>회원가입시 DB에 저장하는 코드</summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
 ```
 //회원가입시 DB에 저장
 	public boolean userInsert(String id, String pw, String nick) { 
@@ -139,8 +114,17 @@ public void close() { //DB닫는 메소드
 		}
 		return check;
 	}
+```
+</details>
+
+<details>
+    <summary>로그인정보 DB확인하는 코드</summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
+```
 //로그인정보 DB확인
-	public String login(String id, String pw) {
+public String login(String id, String pw) {
 		String userNick = null;
 
 		try {
@@ -164,6 +148,14 @@ public void close() { //DB닫는 메소드
 		}
 		return userNick;
 	}
+```
+<details>
+
+<details>
+    <summary>로그인시 스코어가져오는  </summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+```
 //로그인정보 스코어 가져오기
 		public int Scoreget(String nick) {
 			int score = 0;
@@ -188,37 +180,16 @@ public void close() { //DB닫는 메소드
 			}
 			return score;
 		}
-	
+```
+<details>
 
-	//랭킹 DB에 저장
-	public ArrayList<MemberDTO> rank() {
-		int n = 1;
-		ArrayList<MemberDTO> al = new ArrayList<MemberDTO>();
-		try {
-			connect();
+<details>
+    <summary>첫 점수생성하는 코드</summary>
 
-			String sql = "select * from ranking order by score desc";
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
 
-			psmt = conn.prepareStatement(sql);
-			rs = psmt.executeQuery();
-			
-			System.out.println("  닉네임\t점수");
-			while (rs.next()) {
-				String nick = rs.getString("nick");
-				int score = rs.getInt("score");
-				System.out.println(n+". "+nick + "\t" + score);
-				n++;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		return al;
-	}
-	
-	
-	//첫 점수 생성
+```
+//첫 점수 생성
 	public boolean insertScore(String nick, int score) {
 		try {
 			connect();
@@ -244,30 +215,16 @@ public void close() { //DB닫는 메소드
 		}
 		return check;
 	}
-	
-	//점수 업데이트 메소드
-	public void updateScore(int score, String nick) {
-		try {
-			connect();
-			
-			String sql = "update ranking set score = ? where nick = ?";
-			psmt = conn.prepareStatement(sql);
-			
-			
-			psmt.setInt(1, score);
-			psmt.setString(2, nick);
-			
-			psmt.executeUpdate();
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
+```
+<details>
 
-	//점수 가져오는 메소드
+<details>
+    <summary>점수 보유시 가져오는 코드</summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
+```
+//점수 가져오는 메소드
 	public int getuserScore(String nick) {
 		try {
 			connect();
@@ -293,6 +250,71 @@ public void close() { //DB닫는 메소드
 		return score;
 	}
 ```
+<details>
 
+<details>
+    <summary>회원가입시 DB에 저장하는 코드</summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
+```
+//점수 업데이트 메소드
+	public void updateScore(int score, String nick) {
+		try {
+			connect();
+			
+			String sql = "update ranking set score = ? where nick = ?";
+			psmt = conn.prepareStatement(sql);
+			
+			
+			psmt.setInt(1, score);
+			psmt.setString(2, nick);
+			
+			psmt.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+	}
+```
+<details>
+
+<details>
+    <summary>최종점수 랭킹 DB에 저장하는 코드</summary>
+
+<!-- summary 아래 한칸 공백 두고 내용 삽입 -->
+
+```
+//랭킹 DB에 저장
+	public ArrayList<MemberDTO> rank() {
+		int n = 1;
+		ArrayList<MemberDTO> al = new ArrayList<MemberDTO>();
+		try {
+			connect();
+
+			String sql = "select * from ranking order by score desc";
+
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			System.out.println("  닉네임\t점수");
+			while (rs.next()) {
+				String nick = rs.getString("nick");
+				int score = rs.getInt("score");
+				System.out.println(n+". "+nick + "\t" + score);
+				n++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return al;
+	}
+```
+<details>
 
 * movielist
